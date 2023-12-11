@@ -21,13 +21,33 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    postgresqlVersion = "42.6.0"
+
+    lombokVersion = "1.18.30"
+
+    mapstructVersion = "1.5.5.Final"
+
+    hibernateValidatorVersion = "8.0.0.Final"
+    jakartaValidatorVersion = "3.0.2"
+}
+
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor 'org.projectlombok:lombok'
+
+    //  lombok нужно вставлять выше, чтобы mapstruct видел setter, getter
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+
+    implementation "org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}"
+    implementation "jakarta.validation:jakarta.validation-api:${jakartaValidatorVersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
