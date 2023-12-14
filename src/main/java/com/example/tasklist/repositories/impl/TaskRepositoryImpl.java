@@ -20,7 +20,7 @@ public class TaskRepositoryImpl implements TaskRepository {
   }
 
   @Override
-  public void assignToUserById(long userId) {
+  public void assignToUserById(long taskId, long userId) {
 
   }
 

@@ -70,11 +70,13 @@ public class JwtTokenProvider {
             .issuedAt(now).expiration(validity).signWith(key).compact();
   }
 
-  public JwtResponse refreshToken(String refresh) {
+  public JwtResponse refreshTokens(String refresh) {
     JwtResponse jwtResponse = new JwtResponse();
+
     if (!validateToken(refresh)) {
       throw new AccessDeniedException();
     }
+
     long userId = Long.parseLong(getId(refresh));
     User user = userService.getById(userId);
 

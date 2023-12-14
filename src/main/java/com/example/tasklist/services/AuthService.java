@@ -1,4 +1,4 @@
-package com.example.tasklist.repositories;
+package com.example.tasklist.services;
 
 import com.example.tasklist.web.dto.auth.JwtRequest;
 import com.example.tasklist.web.dto.auth.JwtResponse;
