@@ -1,5 +1,31 @@
 server.port: 8080
 
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tasklist_dev?currentSchema=tasklist
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  # spring data jpa
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+#      data-locations: classpath:demo_data.sql
+
+security:
+  jwt:
+    secret: SVVHT1dVSVV5ZWdmZ3J2cWtld2hqYmZsaVVCQUdP
+    access: 3_600_000
+    refresh: 2_592_000_000
+
 ---
 spring.config.activate.on-profile: docker
 

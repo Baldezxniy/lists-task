@@ -8,9 +8,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
-  TaskDto etityToDto(Task task);
+  TaskDto entityToDto(Task task);
 
-  List<TaskDto> etityToDto(List<Task> tasks);
+  List<TaskDto> entityToDto(List<Task> tasks);
 
   Task dtoToEntity(TaskDto taskDto);
 }

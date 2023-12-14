@@ -12,9 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
-@RequiredArgsConstructor
 @Validated
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/users")
 public class UserController {
   private final UserService userService;
   private final UserMapper userMapper;
@@ -36,7 +36,7 @@ public class UserController {
   }
 
   @DeleteMapping("/{id}")
-  public void deleteById(@PathVariable("id") long userId){
+  public void deleteById(@PathVariable("id") long userId) {
     userService.delete(userId);
   }
 }

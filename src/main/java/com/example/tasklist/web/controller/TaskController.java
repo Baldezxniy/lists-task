@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/task")
-@RequiredArgsConstructor
 @Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/tasks")
 public class TaskController {
 
   private final TaskService taskService;
@@ -25,14 +25,13 @@ public class TaskController {
   public TaskDto update(@Validated(OnUpdate.class) @RequestBody TaskDto taskDto) {
     Task task = taskMapper.dtoToEntity(taskDto);
     Task updatedTask = taskService.update(task);
-    return taskMapper.etityToDto(updatedTask);
-
+    return taskMapper.entityToDto(updatedTask);
   }
 
   @GetMapping("/{id}")
   public TaskDto getById(@PathVariable("id") long taskId) {
     Task task = taskService.getById(taskId);
-    return taskMapper.etityToDto(task);
+    return taskMapper.entityToDto(task);
   }
 
   @DeleteMapping("/{id}")
@@ -43,7 +42,7 @@ public class TaskController {
   @GetMapping("/{id}/tasks")
   public List<TaskDto> getAllByUserId(@PathVariable("id") long userId) {
     List<Task> entities = taskService.getAllByUserId(userId);
-    return taskMapper.etityToDto(entities);
+    return taskMapper.entityToDto(entities);
   }
 
   @PostMapping("/{id}/tasks")
@@ -55,6 +54,6 @@ public class TaskController {
     Task taskEntity = taskMapper.dtoToEntity(taskDto);
     Task createdTask = taskService.create(taskEntity, userId);
 
-    return taskMapper.etityToDto(createdTask);
+    return taskMapper.entityToDto(createdTask);
   }
 }

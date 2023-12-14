@@ -22,21 +22,28 @@ repositories {
 }
 
 ext {
+//    securityStarterVersion = "3.0.2"
+
     postgresqlVersion = "42.6.0"
 
     lombokVersion = "1.18.30"
 
-    mapstructVersion = "1.5.5.Final"
+    mapstructVersion = "1.5.3.Final"
 
     hibernateValidatorVersion = "8.0.0.Final"
     jakartaValidatorVersion = "3.0.2"
+
+//    jjwtVeersion = "0.11.5"
+    jjwtVeersion = "0.12.0"
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -44,11 +51,23 @@ dependencies {
 
     //  lombok нужно вставлять выше, чтобы mapstruct видел setter, getter
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     implementation "org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}"
     implementation "jakarta.validation:jakarta.validation-api:${jakartaValidatorVersion}"
 
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVeersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-api:${jjwtVeersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-api:${jjwtVeersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVeersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
 }
 
 tasks.named('test') {
