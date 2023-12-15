@@ -8,13 +8,13 @@ import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
 
-import com.example.tasklist.model.exceprion.NotFoundException;
-import com.example.tasklist.model.user.User;
+import com.example.tasklist.domain.exceprion.NotFoundException;
+import com.example.tasklist.domain.user.User;
 import com.example.tasklist.repositories.UserRepository;
 import com.example.tasklist.services.UserService;
-import com.example.tasklist.model.user.Role;
+import com.example.tasklist.domain.user.Role;
 
-import static com.example.tasklist.model.user.Role.ROLE_USER;
+import static com.example.tasklist.domain.user.Role.ROLE_USER;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional(readOnly = true)
   public User getByUsername(String username) {
+    System.out.println("GET USER " + username);
     return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found."));
   }
 

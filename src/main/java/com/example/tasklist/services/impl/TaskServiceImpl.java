@@ -1,8 +1,8 @@
 package com.example.tasklist.services.impl;
 
-import com.example.tasklist.model.exceprion.NotFoundException;
-import com.example.tasklist.model.task.Status;
-import com.example.tasklist.model.task.Task;
+import com.example.tasklist.domain.exceprion.NotFoundException;
+import com.example.tasklist.domain.task.Status;
+import com.example.tasklist.domain.task.Task;
 import com.example.tasklist.repositories.TaskRepository;
 import com.example.tasklist.services.TaskService;
 import lombok.RequiredArgsConstructor;

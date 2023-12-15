@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.0'
+//    id 'org.springframework.boot' version '3.2.0'
+    id 'org.springframework.boot' version '3.1.6'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -33,8 +34,8 @@ ext {
     hibernateValidatorVersion = "8.0.0.Final"
     jakartaValidatorVersion = "3.0.2"
 
-//    jjwtVeersion = "0.11.5"
-    jjwtVeersion = "0.12.0"
+    jjwtVeersion = "0.11.5"
+//    jjwtVeersion = "0.12.0"
 }
 
 dependencies {
@@ -62,6 +63,7 @@ dependencies {
     runtimeOnly "io.jsonwebtoken:jjwt-api:${jjwtVeersion}"
     runtimeOnly "io.jsonwebtoken:jjwt-api:${jjwtVeersion}"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVeersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVeersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

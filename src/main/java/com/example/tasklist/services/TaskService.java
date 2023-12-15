@@ -1,6 +1,6 @@
 package com.example.tasklist.services;
 
-import com.example.tasklist.model.task.Task;
+import com.example.tasklist.domain.task.Task;
 
 import java.util.List;
 

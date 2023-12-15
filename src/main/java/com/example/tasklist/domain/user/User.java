@@ -1,6 +1,6 @@
-package com.example.tasklist.model.user;
+package com.example.tasklist.domain.user;
 
-import com.example.tasklist.model.task.Task;
+import com.example.tasklist.domain.task.Task;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;

@@ -23,8 +23,8 @@ spring:
 security:
   jwt:
     secret: SVVHT1dVSVV5ZWdmZ3J2cWtld2hqYmZsaVVCQUdP
-    access: 3_600_000
-    refresh: 2_592_000_000
+    access: 1
+    refresh: 30
 
 ---
 spring.config.activate.on-profile: docker

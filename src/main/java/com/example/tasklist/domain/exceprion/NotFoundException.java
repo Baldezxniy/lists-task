@@ -1,4 +1,4 @@
-package com.example.tasklist.model.exceprion;
+package com.example.tasklist.domain.exceprion;
 
 public class NotFoundException extends RuntimeException {
   public NotFoundException() {

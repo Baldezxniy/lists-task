@@ -1,6 +1,6 @@
 package com.example.tasklist.web.dto.task;
 
-import com.example.tasklist.model.task.Status;
+import com.example.tasklist.domain.task.Status;
 import com.example.tasklist.web.dto.validation.OnCreate;
 import com.example.tasklist.web.dto.validation.OnUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;

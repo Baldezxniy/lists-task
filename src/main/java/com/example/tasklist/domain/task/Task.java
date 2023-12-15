@@ -1,4 +1,4 @@
-package com.example.tasklist.model.task;
+package com.example.tasklist.domain.task;
 
 import jakarta.persistence.Column;
 import lombok.Getter;

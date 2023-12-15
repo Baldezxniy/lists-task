@@ -1,6 +1,6 @@
 package com.example.tasklist.web.security;
 
-import com.example.tasklist.model.exceprion.NotFoundException;
+import com.example.tasklist.domain.exceprion.NotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -35,5 +35,7 @@ public class JwtTokenFilter extends GenericFilterBean {
       }
 
     }
+
+    chain.doFilter(request, response);
   }
 }

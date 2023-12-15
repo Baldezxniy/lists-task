@@ -1,4 +1,4 @@
-package com.example.tasklist.model.exceprion;
+package com.example.tasklist.domain.exceprion;
 
 /**
  * Доступ к данным запрещен

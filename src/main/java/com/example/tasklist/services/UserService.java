@@ -1,6 +1,6 @@
 package com.example.tasklist.services;
 
-import com.example.tasklist.model.user.User;
+import com.example.tasklist.domain.user.User;
 
 public interface UserService {
   User getById(long userId);

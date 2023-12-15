@@ -1,6 +1,6 @@
 package com.example.tasklist.web.controller;
 
-import com.example.tasklist.model.task.Task;
+import com.example.tasklist.domain.task.Task;
 import com.example.tasklist.services.TaskService;
 import com.example.tasklist.web.dto.task.TaskDto;
 import com.example.tasklist.web.dto.validation.OnCreate;

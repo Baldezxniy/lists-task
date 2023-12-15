@@ -1,6 +1,6 @@
 package com.example.tasklist.web.controller;
 
-import com.example.tasklist.model.user.User;
+import com.example.tasklist.domain.user.User;
 import com.example.tasklist.web.dto.user.UserDto;
 import com.example.tasklist.web.dto.validation.OnCreate;
 import org.springframework.validation.annotation.Validated;

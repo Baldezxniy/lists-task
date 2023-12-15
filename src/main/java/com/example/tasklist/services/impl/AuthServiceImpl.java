@@ -1,6 +1,6 @@
 package com.example.tasklist.services.impl;
 
-import com.example.tasklist.model.user.User;
+import com.example.tasklist.domain.user.User;
 import com.example.tasklist.services.AuthService;
 import com.example.tasklist.services.UserService;
 import com.example.tasklist.web.dto.auth.JwtRequest;
@@ -22,11 +22,21 @@ public class AuthServiceImpl implements AuthService {
   @Override
   public JwtResponse login(JwtRequest loginRequest) {
     JwtResponse jwtResponse = new JwtResponse();
-    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+    System.out.println("1 " + loginRequest.getUsername());
+    System.out.println("1 " + loginRequest.getPassword());
+
+    try {
+      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("2 " + loginRequest.getUsername());
 
     User user = userService.getByUsername(loginRequest.getUsername());
 
     jwtResponse.setId(user.getUserId());
+    jwtResponse.setUsername(user.getUsername());
     jwtResponse.setAccessToken(jwtTokenProvider.createAccessToken(user.getUserId(), user.getUsername(), user.getRoles()));
     jwtResponse.setRefreshToken(jwtTokenProvider.createRefreshToken(user.getUserId(), user.getUsername()));
 

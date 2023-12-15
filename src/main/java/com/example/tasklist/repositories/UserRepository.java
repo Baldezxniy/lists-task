@@ -1,7 +1,7 @@
 package com.example.tasklist.repositories;
 
-import com.example.tasklist.model.user.Role;
-import com.example.tasklist.model.user.User;
+import com.example.tasklist.domain.user.Role;
+import com.example.tasklist.domain.user.User;
 
 import java.util.Optional;
 
