@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static com.example.tasklist.repositories.queries.UserQueries.*;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 

@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static com.example.tasklist.repositories.queries.TaskQueries.*;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepository {
 

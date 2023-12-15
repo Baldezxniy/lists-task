@@ -2,7 +2,7 @@ package com.example.tasklist.repositories.queries;
 
 public class UserQueries {
   public static final String FIND_BY_ID = """ 
-          SELECT u.user_id     
+          SELECT u.user_id   
                   as user_id,
                   u.name            as user_name,
                   u.username        as user_username,
