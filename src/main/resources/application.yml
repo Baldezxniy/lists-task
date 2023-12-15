@@ -12,11 +12,13 @@ spring:
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      mode: always
-      continue-on-error: false
-#      data-locations: classpath:demo_data.sql
+  liquibase:
+    change-log: classpath:liquibase/db.changelog-master.yaml
+    enabled: true
+    default-schema: tasklist
+    url: jdbc:postgresql://localhost:5432/tasklist_dev?currentSchema=tasklist
+    user: postgres
+    password: password
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml

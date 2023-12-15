@@ -37,7 +37,9 @@ ext {
     jakartaValidatorVersion = "3.0.2"
 
     jjwtVeersion = "0.11.5"
-//    jjwtVeersion = "0.12.0"
+    // jjwtVeersion = "0.12.0" - Switch to it in the future
+
+    liquibaseVersion = "4.25.0"
 }
 
 dependencies {
@@ -68,6 +70,8 @@ dependencies {
     runtimeOnly "io.jsonwebtoken:jjwt-api:${jjwtVeersion}"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVeersion}"
     runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVeersion}"
+
+    implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
