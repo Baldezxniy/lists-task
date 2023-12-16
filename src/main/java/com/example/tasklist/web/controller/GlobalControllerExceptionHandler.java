@@ -8,7 +8,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -82,10 +82,24 @@ public class GlobalControllerExceptionHandler {
     return createHttpErrorInfo(INTERNAL_SERVER_ERROR, ex);
   }
 
+  @ExceptionHandler(AuthenticationException.class)
+  @ResponseStatus(BAD_REQUEST)
+  public HttpErrorInfo handleAuthentication(AuthenticationException ignored) {
+
+    return createHttpErrorInfo(INTERNAL_SERVER_ERROR, "Authentication failed");
+  }
+
   private HttpErrorInfo createHttpErrorInfo(
           HttpStatus httpStatus, Exception ex) {
 
     final String message = ex.getMessage();
+
+    LOG.debug("Returning HTTP status: {} for path: {}, message: {}", httpStatus, message);
+    return new HttpErrorInfo(httpStatus, message);
+  }
+
+  private HttpErrorInfo createHttpErrorInfo(
+          HttpStatus httpStatus, String message) {
 
     LOG.debug("Returning HTTP status: {} for path: {}, message: {}", httpStatus, message);
     return new HttpErrorInfo(httpStatus, message);

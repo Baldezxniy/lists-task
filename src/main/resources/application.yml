@@ -29,6 +29,9 @@ security:
     access: 1
     refresh: 30
 
+springdoc:
+  override-with-generic-response: false
+
 ---
 spring.config.activate.on-profile: docker
 
