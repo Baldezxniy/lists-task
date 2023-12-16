@@ -3,6 +3,7 @@ package com.example.tasklist.web.controller;
 import com.example.tasklist.domain.user.User;
 import com.example.tasklist.web.dto.user.UserDto;
 import com.example.tasklist.web.dto.validation.OnCreate;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/auth")
+@Tag(name = "Auth Controller", description = "Auth API")
 public class AuthController {
 
   private final AuthService authService;
