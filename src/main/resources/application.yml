@@ -14,9 +14,9 @@ spring:
     cache-names: redis-cache
   data:
     redis:
-      host: ${REDIS_HOST}
+      host: localhost
       port: 6379
-      password: bWlyb3NsYXY= ${REDIS_PASSWORD} # bWlyb3NsYXY= #
+      password: bWlyb3NsYXY= ${REDIS_PASSWORD}
   datasource:
     url: jdbc:postgresql://${HOST}:5432/${POSTGRES_LOCAL_DB}?currentSchema=${POSTGRES_SCHEMA}
     username: ${POSTGRES_USERNAME}
@@ -46,6 +46,11 @@ springdoc:
 spring.config.activate.on-profile: docker
 
 spring:
+  data:
+    redis:
+      host: ${REDIS_DOCKER_NAME}
+      port: 6379
+      password: ${REDIS_PASSWORD}
   datasource:
     url: jdbc:postgresql://${DOCKER_DB_CONTAINER_NAME}/${DOCKER_DB_NAME}?currentSchema=${POSTGRES_SCHEMA}
     username: ${POSTGRES_USERNAME}
@@ -59,18 +64,3 @@ spring:
     url: jdbc:postgresql://${DOCKER_DB_CONTAINER_NAME}/${DOCKER_DB_NAME}?currentSchema=${POSTGRES_SCHEMA}
     user: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
-
-#spring:
-#  datasource:
-#    url: jdbc:postgresql://postgres-db/db?currentSchema=tasklist
-#    username: postgres
-#    password: password
-#    name: db
-#    driver-class-name: org.postgresql.Driver
-#  liquibase:
-#    change-log: classpath:liquibase/db.changelog-master.yaml
-#    enabled: true
-#    default-schema: tasklist
-#    url: jdbc:postgresql://postgres-db/db?currentSchema=tasklist
-#    user: postgres
-#    password: password
