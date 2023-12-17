@@ -6,6 +6,8 @@ logging:
     com.example: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+spring.jpa.hibernate.ddl-auto: none
+
 spring:
   config:
     import: optional:file:.env[.properties]
@@ -16,7 +18,7 @@ spring:
     redis:
       host: localhost
       port: 6379
-      password: bWlyb3NsYXY= ${REDIS_PASSWORD}
+      password: ${REDIS_PASSWORD}
   datasource:
     url: jdbc:postgresql://${HOST}:5432/${POSTGRES_LOCAL_DB}?currentSchema=${POSTGRES_SCHEMA}
     username: ${POSTGRES_USERNAME}
@@ -29,9 +31,6 @@ spring:
     url: jdbc:postgresql://${HOST}:5432/${POSTGRES_LOCAL_DB}?currentSchema=${POSTGRES_SCHEMA}
     user: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
-
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
 
 security:
   jwt:

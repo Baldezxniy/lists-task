@@ -3,8 +3,10 @@ package com.example.tasklist.services.impl;
 import com.example.tasklist.domain.exceprion.NotFoundException;
 import com.example.tasklist.domain.task.Status;
 import com.example.tasklist.domain.task.Task;
+import com.example.tasklist.domain.user.User;
 import com.example.tasklist.repositories.TaskRepository;
 import com.example.tasklist.services.TaskService;
+import com.example.tasklist.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -19,6 +21,7 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
   private final TaskRepository taskRepository;
+  private final UserService userService;
 
   @Override
   @Transactional(readOnly = true)
@@ -41,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
       task.setStatus(Status.TODO);
     }
 
-    taskRepository.update(task);
+    taskRepository.save(task);
     return task;
   }
 
@@ -49,9 +52,11 @@ public class TaskServiceImpl implements TaskService {
   @Transactional
   @Cacheable(value = "TaskService::getById", key = "#task.taskId")
   public Task create(Task task, long userId) {
+    User user = userService.getById(userId);
     task.setStatus(Status.TODO);
-    taskRepository.create(task);
-    taskRepository.assignToUserById(task.getTaskId(), userId);
+    user.getTasks().add(task);
+
+    userService.update(user);
     return task;
   }
 
@@ -59,6 +64,6 @@ public class TaskServiceImpl implements TaskService {
   @Transactional
   @CacheEvict(value = "TaskService::getById", key = "#taskId")
   public void delete(long taskId) {
-    taskRepository.delete(taskId);
+    taskRepository.deleteById(taskId);
   }
 }

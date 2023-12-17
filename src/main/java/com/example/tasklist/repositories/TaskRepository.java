@@ -1,23 +1,18 @@
 package com.example.tasklist.repositories;
 
 import com.example.tasklist.domain.task.Task;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
-@Mapper
-public interface TaskRepository {
-  Optional<Task> findById(long taskId);
-
-  List<Task> findAllByUserId(long userId);
-
-  void assignToUserById(@Param("taskId") long taskId, @Param("userId") long userId);
-
-  void update(Task task);
-
-  void create(Task task);
-
-  void delete(long taskId);
+public interface TaskRepository extends JpaRepository<Task, Long> {
+  @Query(value = """
+          SELECT t.task_id, t.title, t.description, t.status, t.expiration_date
+          FROM tasks t 
+          JOIN users_tasks ut ON ut.task_id = t.task_id
+          WHERE ut.user_id = :userId
+          """, nativeQuery = true)
+  List<Task> findAllByUserId(@Param("userId") long userId);
 }

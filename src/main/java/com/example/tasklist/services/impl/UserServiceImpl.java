@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
   })
   public User update(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    userRepository.update(user);
+    userRepository.save(user);
     return user;
   }
 
@@ -67,10 +67,9 @@ public class UserServiceImpl implements UserService {
     }
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    userRepository.create(user);
     Set<Role> roles = Set.of(ROLE_USER);
-    userRepository.insertUserRole(user.getUserId(), ROLE_USER);
     user.setRoles(roles);
+    userRepository.save(user);
     return user;
   }
 
@@ -85,6 +84,6 @@ public class UserServiceImpl implements UserService {
   @Transactional
   @CacheEvict(value = "UserService::getById", key = "#userId")
   public void delete(long userId) {
-    userRepository.delete(userId);
+    userRepository.deleteById(userId);
   }
 }
