@@ -23,8 +23,6 @@ repositories {
 }
 
 ext {
-//    securityStarterVersion = "3.0.2"
-
     postgresqlVersion = "42.6.0"
 
     mybatisVersion = "3.0.1"
@@ -40,6 +38,7 @@ ext {
     // jjwtVeersion = "0.12.0" - Switch to it in the future
 
     liquibaseVersion = "4.25.0"
+    preliquibaseVersion = "1.4.0"
 
     springdocVersion = "2.3.0"
 }
@@ -51,6 +50,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-security"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:${preliquibaseVersion}"
 
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
 
