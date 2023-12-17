@@ -35,4 +35,17 @@ springdoc:
 ---
 spring.config.activate.on-profile: docker
 
-# DOCKER CONFIG
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-db/db?currentSchema=tasklist
+    username: postgres
+    password: password
+    name: db
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:liquibase/db.changelog-master.yaml
+    enabled: true
+    default-schema: tasklist
+    url: jdbc:postgresql://postgres-db/db?currentSchema=tasklist
+    user: postgres
+    password: password

@@ -13,6 +13,7 @@ import com.example.tasklist.web.mappers.UserMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class UserController {
 
   @PutMapping
   @Operation(summary = "Update user.")
+  @PreAuthorize("@customSecurityExpression.canAccessUser(#userDto.userId)")
   public UserDto update(@Validated(OnUpdate.class) @RequestBody UserDto userDto) {
     User user = userMapper.dtoToEntity(userDto);
     User updatedUser = userService.update(user);
@@ -40,6 +42,7 @@ public class UserController {
 
   @GetMapping("/{id}")
   @Operation(summary = "Get userDto by id.")
+  @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
   public UserDto getById(@PathVariable("id") long userId) {
     User user = userService.getById(userId);
     return userMapper.entityToDto(user);
@@ -47,12 +50,14 @@ public class UserController {
 
   @DeleteMapping("/{id}")
   @Operation(summary = "Delete user by id.")
+  @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
   public void deleteById(@PathVariable("id") long userId) {
     userService.delete(userId);
   }
 
   @GetMapping("/{id}/tasks")
   @Operation(summary = "Get all user's task by user id.")
+  @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
   public List<TaskDto> getTasksByUserId(@PathVariable("id") final Long userId) {
     List<Task> tasks = taskService.getAllByUserId(userId);
     return taskMapper.entityToDto(tasks);
@@ -60,10 +65,10 @@ public class UserController {
 
   @PostMapping("/{id}/tasks")
   @Operation(summary = "Create task for user by user id.")
-  public TaskDto createTask(@PathVariable Long id,
-                            @Validated(OnCreate.class) @RequestBody TaskDto dto) {
+  @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
+  public TaskDto createTask(@PathVariable("id") Long userId, @Validated(OnCreate.class) @RequestBody TaskDto dto) {
     Task task = taskMapper.dtoToEntity(dto);
-    Task createdTask = taskService.create(task, id);
+    Task createdTask = taskService.create(task, userId);
     return taskMapper.entityToDto(createdTask);
   }
 }

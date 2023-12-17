@@ -49,8 +49,6 @@ public class JwtTokenProvider {
                                   final String username,
                                   final Set<Role> roles) {
 
-    System.out.println("CREATE ACCESS");
-    System.out.println("USERNAME " + username);
     Claims claims = Jwts.claims().setSubject(username);
     claims.put("id", userId);
     claims.put("roles", resolveRoles(roles));
@@ -68,7 +66,6 @@ public class JwtTokenProvider {
   }
 
   public String createRefreshToken(long userId, String username) {
-    System.out.println("CREATE REFRESH");
 
     Claims claims = Jwts.claims().setSubject(username);
     claims.put("id", userId);

@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional(readOnly = true)
   public User getByUsername(String username) {
-    System.out.println("GET USER " + username);
     return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found."));
   }
 
