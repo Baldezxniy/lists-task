@@ -7,6 +7,14 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 spring:
+  cache:
+    type: redis
+    cache-names: redis-cache
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: bWlyb3NsYXY=
   datasource:
     url: jdbc:postgresql://localhost:5432/tasklist_dev?currentSchema=tasklist
     username: postgres
