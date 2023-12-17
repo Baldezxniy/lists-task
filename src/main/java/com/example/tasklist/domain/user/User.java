@@ -5,12 +5,13 @@ import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-public class User {
+public class User implements Serializable {
 
   @Column(name = "user_id")
   private long userId;

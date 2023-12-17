@@ -7,27 +7,37 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
+  cache:
+    type: redis
+    cache-names: redis-cache
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: bWlyb3NsYXY= ${REDIS_PASSWORD}
   datasource:
-    url: jdbc:postgresql://localhost:5432/tasklist_dev?currentSchema=tasklist
-    username: postgres
-    password: password
+    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_LOCAL_DB}?currentSchema=${POSTGRES_SCHEMA}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:liquibase/db.changelog-master.yaml
     enabled: true
-    default-schema: tasklist
-    url: jdbc:postgresql://localhost:5432/tasklist_dev?currentSchema=tasklist
-    user: postgres
-    password: password
+    default-schema: ${POSTGRES_SCHEMA}
+    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_LOCAL_DB}?currentSchema=${POSTGRES_SCHEMA}
+    user: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
 security:
   jwt:
-    secret: SVVHT1dVSVV5ZWdmZ3J2cWtld2hqYmZsaVVCQUdP
-    access: 1
-    refresh: 30
+    secret: ${JWT_SECRET}
+    access: ${JWT_ACCESS}
+    refresh: ${JWT_REFRESH}
 
 springdoc:
   override-with-generic-response: false
@@ -36,16 +46,21 @@ springdoc:
 spring.config.activate.on-profile: docker
 
 spring:
+  data:
+    redis:
+      host: ${REDIS_DOCKER_NAME}
+      port: 6379
+      password: ${REDIS_PASSWORD}
   datasource:
-    url: jdbc:postgresql://postgres-db/db?currentSchema=tasklist
-    username: postgres
-    password: password
-    name: db
+    url: jdbc:postgresql://${DOCKER_DB_CONTAINER_NAME}/${DOCKER_DB_NAME}?currentSchema=${POSTGRES_SCHEMA}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    name: ${DOCKER_DB_NAME}
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:liquibase/db.changelog-master.yaml
     enabled: true
-    default-schema: tasklist
-    url: jdbc:postgresql://postgres-db/db?currentSchema=tasklist
-    user: postgres
-    password: password
+    default-schema: ${POSTGRES_SCHEMA}
+    url: jdbc:postgresql://${DOCKER_DB_CONTAINER_NAME}/${DOCKER_DB_NAME}?currentSchema=${POSTGRES_SCHEMA}
+    user: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}

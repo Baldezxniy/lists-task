@@ -45,10 +45,11 @@ public class JwtTokenProvider {
     this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret64));
   }
 
-  public String createAccessToken(final Long userId,
-                                  final String username,
-                                  final Set<Role> roles) {
-
+  public String createAccessToken(
+          final Long userId,
+          final String username,
+          final Set<Role> roles
+  ) {
     Claims claims = Jwts.claims().setSubject(username);
     claims.put("id", userId);
     claims.put("roles", resolveRoles(roles));
@@ -65,7 +66,7 @@ public class JwtTokenProvider {
     return roles.stream().map(Enum::name).collect(Collectors.toList());
   }
 
-  public String createRefreshToken(long userId, String username) {
+  public String createRefreshToken(final long userId, final String username) {
 
     Claims claims = Jwts.claims().setSubject(username);
     claims.put("id", userId);
