@@ -1,9 +1,6 @@
 package com.example.tasklist.web.controller;
 
-import com.example.tasklist.domain.exceprion.AccessDeniedException;
-import com.example.tasklist.domain.exceprion.HttpErrorInfo;
-import com.example.tasklist.domain.exceprion.MappingException;
-import com.example.tasklist.domain.exceprion.NotFoundException;
+import com.example.tasklist.domain.exceprion.*;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +84,13 @@ public class GlobalControllerExceptionHandler {
   public HttpErrorInfo handleAuthentication(AuthenticationException ignored) {
 
     return createHttpErrorInfo(INTERNAL_SERVER_ERROR, "Authentication failed");
+  }
+
+  @ExceptionHandler(ImageUploadExceprionException.class)
+  @ResponseStatus(BAD_REQUEST)
+  public HttpErrorInfo handleImageUpload(ImageUploadExceprionException ex) {
+
+    return createHttpErrorInfo(INTERNAL_SERVER_ERROR, ex);
   }
 
   private HttpErrorInfo createHttpErrorInfo(
