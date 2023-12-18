@@ -1,10 +1,13 @@
 package com.example.tasklist.web.controller;
 
 import com.example.tasklist.domain.task.Task;
+import com.example.tasklist.domain.task.TaskImage;
 import com.example.tasklist.services.TaskService;
 import com.example.tasklist.web.dto.task.TaskDto;
+import com.example.tasklist.web.dto.task.TaskImageDto;
 import com.example.tasklist.web.dto.validation.OnCreate;
 import com.example.tasklist.web.dto.validation.OnUpdate;
+import com.example.tasklist.web.mappers.TaskImageMapper;
 import com.example.tasklist.web.mappers.TaskMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,6 +27,7 @@ public class TaskController {
 
   private final TaskService taskService;
   private final TaskMapper taskMapper;
+  private final TaskImageMapper taskImageMapper;
 
   @PutMapping
   @Operation(summary = "Update task.")
@@ -47,5 +51,13 @@ public class TaskController {
   @PreAuthorize("@customSecurityExpression.canAccessTask(#taskId)")
   public void deleteById(@PathVariable("id") long taskId) {
     taskService.delete(taskId);
+  }
+
+  @PostMapping("/{id}/image")
+  @Operation(summary = "Upload image to task")
+  @PreAuthorize("@customSecurityExpression.canAccessTask(#taskId)")
+  public void uploadImage(@PathVariable("id") long taskId, @Validated @ModelAttribute TaskImageDto imageDto) {
+    TaskImage image = taskImageMapper.dtoToEntity(imageDto);
+    taskService.uploadImage(taskId, image);
   }
 }

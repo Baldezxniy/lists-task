@@ -41,6 +41,12 @@ security:
 springdoc:
   override-with-generic-response: false
 
+minio:
+  bucket: ${MINIO_BUCKET}
+  url: ${MINIO_URL}
+  accessKey: ${MINIO_ACCESS_KEY}
+  secretKey: ${MINIO_SECRET_KEY}
+
 ---
 spring.config.activate.on-profile: docker
 

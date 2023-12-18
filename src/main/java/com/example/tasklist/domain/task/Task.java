@@ -22,7 +22,11 @@ public class Task implements Serializable {
   private String description;
   @Enumerated(value = EnumType.STRING)
   private Status status;
-//  @Column(name = "expiration_date")
+  @Column(name = "expiration_date")
   private LocalDateTime expirationDate;
 
+  @Column(name = "image")
+  @CollectionTable(name = "tasks_images", joinColumns = @JoinColumn(name = "task_id"))
+  @ElementCollection
+  private List<String> images;
 }

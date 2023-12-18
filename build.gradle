@@ -41,6 +41,8 @@ ext {
     preliquibaseVersion = "1.4.0"
 
     springdocVersion = "2.3.0"
+
+    minioVersion = "8.5.7"
 }
 
 dependencies {
@@ -77,6 +79,8 @@ dependencies {
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
 
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}"
+
+    implementation "io.minio:minio:${minioVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
