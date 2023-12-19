@@ -1,21 +1,21 @@
 package com.example.tasklist.domain.exceprion;
 
 /**
- * Ошибка при загрузке изображения
+ * Ошибка при загрузке изображения.
  */
 public class ImageUploadExceprionException extends RuntimeException {
   public ImageUploadExceprionException() {
   }
 
-  public ImageUploadExceprionException(String message) {
+  public ImageUploadExceprionException(final String message) {
     super(message);
   }
 
-  public ImageUploadExceprionException(String message, Throwable cause) {
+  public ImageUploadExceprionException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public ImageUploadExceprionException(Throwable cause) {
+  public ImageUploadExceprionException(final Throwable cause) {
     super(cause);
   }
 }

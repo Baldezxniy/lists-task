@@ -3,6 +3,28 @@ plugins {
 //    id 'org.springframework.boot' version '3.2.0'
     id 'org.springframework.boot' version '3.1.6'
     id 'io.spring.dependency-management' version '1.1.4'
+
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion = '8.44' // Укажите актуальную версию Checkstyle
+
+    configFile = file("${rootDir}/config/sun_checks.xml") // Укажите путь к вашему файлу конфигурации Checkstyle
+
+    // Добавляем конфигурацию для подавления проверок
+    configProperties = [
+            'checkstyle.suppressions.file': file("${rootDir}/config/checkstyle-suppressions.xml").absolutePath,
+            'checkstyle.consoleOutput'    : 'true',
+            'checkstyle.failsOnError'     : 'true',
+            'checkstyle.linkXRef'         : 'false'
+    ]
+}
+
+check.dependsOn 'checkstyleMain' // Выполнять проверку Checkstyle при запуске задачи check
+
+repositories {
+    jcenter()
 }
 
 group = 'com.example'
@@ -43,6 +65,9 @@ ext {
     springdocVersion = "2.3.0"
 
     minioVersion = "8.5.7"
+
+    xnlFormaterVersion = "3.2.2"
+    checkstyleVersion = "3.2.2"
 }
 
 dependencies {

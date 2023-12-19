@@ -4,15 +4,15 @@ public class MappingException extends RuntimeException {
   public MappingException() {
   }
 
-  public MappingException(String message) {
+  public MappingException(final String message) {
     super(message);
   }
 
-  public MappingException(String message, Throwable cause) {
+  public MappingException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public MappingException(Throwable cause) {
+  public MappingException(final Throwable cause) {
     super(cause);
   }
 }

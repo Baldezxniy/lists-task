@@ -17,7 +17,7 @@ public class HttpErrorInfo {
   private ZonedDateTime timestamp;
   private Map<String, String> errors;
 
-  public HttpErrorInfo(HttpStatus httpStatus, String message) {
+  public HttpErrorInfo(final HttpStatus httpStatus, final String message) {
     timestamp = ZonedDateTime.now();
     this.httpStatus = httpStatus;
     this.message = message;

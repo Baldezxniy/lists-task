@@ -5,7 +5,6 @@ import com.example.tasklist.domain.task.TaskImage;
 import com.example.tasklist.services.TaskService;
 import com.example.tasklist.web.dto.task.TaskDto;
 import com.example.tasklist.web.dto.task.TaskImageDto;
-import com.example.tasklist.web.dto.validation.OnCreate;
 import com.example.tasklist.web.dto.validation.OnUpdate;
 import com.example.tasklist.web.mappers.TaskImageMapper;
 import com.example.tasklist.web.mappers.TaskMapper;
@@ -15,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Validated
 @RestController

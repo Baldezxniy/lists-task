@@ -1,22 +1,20 @@
 package com.example.tasklist.web.controller;
 
 import com.example.tasklist.domain.user.User;
+import com.example.tasklist.services.AuthService;
+import com.example.tasklist.services.UserService;
+import com.example.tasklist.web.dto.auth.JwtRequest;
+import com.example.tasklist.web.dto.auth.JwtResponse;
 import com.example.tasklist.web.dto.user.UserDto;
 import com.example.tasklist.web.dto.validation.OnCreate;
+import com.example.tasklist.web.mappers.UserMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.tasklist.services.AuthService;
-import com.example.tasklist.services.UserService;
-import com.example.tasklist.web.dto.auth.JwtRequest;
-import com.example.tasklist.web.dto.auth.JwtResponse;
-import com.example.tasklist.web.mappers.UserMapper;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
