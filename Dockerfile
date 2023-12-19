@@ -16,14 +16,26 @@
 #
 #ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
 
-FROM openjdk:17-jdk
+#FROM openjdk:17-jdk
+#
+#RUN mkdir /app
+#
+#COPY app.jar /app/app.jar
+#
+#WORKDIR /app
+#
+#EXPOSE 8080
+#
+#ENTRYPOINT ["java", "-jar", "app.jar"]
 
-RUN mkdir /app
+FROM gradle:7.3-jdk17 AS build
+WORKDIR /
+COPY /src /src
+COPY build.gradle settings.gradle /
+RUN gradle clean build
 
-COPY app.jar /app/app.jar
-
+FROM eclipse-temurin:17.0.5_8-jre-slim
 WORKDIR /app
-
+COPY --from=build /path/to/your/project/build/libs/*.jar application.jar
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "application.jar"]
