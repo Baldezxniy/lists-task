@@ -3,6 +3,8 @@ plugins {
 //    id 'org.springframework.boot' version '3.2.0'
     id 'org.springframework.boot' version '3.1.6'
     id 'io.spring.dependency-management' version '1.1.4'
+
+    id 'checkstyle'
 }
 
 group = 'com.example'
@@ -10,11 +12,9 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    targetCompatibility = '17'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -43,6 +43,9 @@ ext {
     springdocVersion = "2.3.0"
 
     minioVersion = "8.5.7"
+
+    xnlFormaterVersion = "3.2.2"
+    checkstyleVersion = "3.2.2"
 }
 
 dependencies {
@@ -89,6 +92,13 @@ tasks.named('compileJava') {
     inputs.files(tasks.named('processResources'))
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+
+checkstyle {
+    toolVersion = '10.12.5'
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    showViolations = true
+    ignoreFailures = false
 }

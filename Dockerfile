@@ -1,4 +1,3 @@
-
 FROM eclipse-temurin:17.0.5_8-jre-focal as builder
 WORKDIR extracted
 ADD ./build/libs/*.jar app.jar

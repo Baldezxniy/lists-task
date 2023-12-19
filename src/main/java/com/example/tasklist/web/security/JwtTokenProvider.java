@@ -62,7 +62,7 @@ public class JwtTokenProvider {
             .compact();
   }
 
-  private List<String> resolveRoles(Set<Role> roles) {
+  private List<String> resolveRoles(final Set<Role> roles) {
     return roles.stream().map(Enum::name).collect(Collectors.toList());
   }
 
@@ -79,7 +79,7 @@ public class JwtTokenProvider {
             .compact();
   }
 
-  public JwtResponse refreshTokens(String refresh) {
+  public JwtResponse refreshTokens(final String refresh) {
     JwtResponse jwtResponse = new JwtResponse();
 
     if (!validateToken(refresh)) {
@@ -97,25 +97,25 @@ public class JwtTokenProvider {
     return jwtResponse;
   }
 
-  public boolean validateToken(String refresh) {
+  public boolean validateToken(final String refresh) {
     Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key)
             .build().parseClaimsJws(refresh);
 
     return !claims.getBody().getExpiration().before(new Date());
   }
 
-  private String getId(String refresh) {
+  private String getId(final String refresh) {
     return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refresh).getBody().get("user_id").toString();
   }
 
-  public Authentication getAuthentication(String token) {
+  public Authentication getAuthentication(final String token) {
     String username = getUsername(token);
     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
 
-  private String getUsername(String token) {
+  private String getUsername(final String token) {
     return Jwts
             .parserBuilder()
             .setSigningKey(key)

@@ -24,7 +24,8 @@ public class TaskDto {
   @Length(max = 255, message = "Title must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
   private String title;
 
-  @Length(max = 255, message = "Description must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
+  @Length(max = 255, message = "Description must be smaller than 255 symbols",
+          groups = {OnCreate.class, OnUpdate.class})
   private String description;
   private Status status;
   @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
