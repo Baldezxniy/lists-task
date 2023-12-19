@@ -102,3 +102,9 @@ checkstyle {
     showViolations = true
     ignoreFailures = false
 }
+
+bootJar {
+    layered {
+        enabled = true
+    }
+}
