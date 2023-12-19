@@ -15,7 +15,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -34,7 +41,7 @@ public class UserController {
   @PutMapping
   @Operation(summary = "Update user.")
   @PreAuthorize("@customSecurityExpression.canAccessUser(#userDto.userId)")
-  public UserDto update(@Validated(OnUpdate.class) @RequestBody UserDto userDto) {
+  public UserDto update(final @Validated(OnUpdate.class) @RequestBody UserDto userDto) {
     User user = userMapper.dtoToEntity(userDto);
     User updatedUser = userService.update(user);
     return userMapper.entityToDto(updatedUser);
@@ -43,7 +50,7 @@ public class UserController {
   @GetMapping("/{id}")
   @Operation(summary = "Get userDto by id.")
   @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
-  public UserDto getById(@PathVariable("id") long userId) {
+  public UserDto getById(final @PathVariable("id") long userId) {
     User user = userService.getById(userId);
     return userMapper.entityToDto(user);
   }
@@ -51,7 +58,7 @@ public class UserController {
   @DeleteMapping("/{id}")
   @Operation(summary = "Delete user by id.")
   @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
-  public void deleteById(@PathVariable("id") long userId) {
+  public void deleteById(final @PathVariable("id") long userId) {
     userService.delete(userId);
   }
 
@@ -66,7 +73,10 @@ public class UserController {
   @PostMapping("/{id}/tasks")
   @Operation(summary = "Create task for user by user id.")
   @PreAuthorize("@customSecurityExpression.canAccessUser(#userId)")
-  public TaskDto createTask(@PathVariable("id") Long userId, @Validated(OnCreate.class) @RequestBody TaskDto dto) {
+  public TaskDto createTask(
+          final @PathVariable("id") Long userId,
+          final @Validated(OnCreate.class) @RequestBody TaskDto dto
+  ) {
     Task task = taskMapper.dtoToEntity(dto);
     Task createdTask = taskService.create(task, userId);
     return taskMapper.entityToDto(createdTask);

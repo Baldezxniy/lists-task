@@ -24,7 +24,9 @@ public class AuthServiceImpl implements AuthService {
     JwtResponse jwtResponse = new JwtResponse();
 
     try {
-      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+      authenticationManager.authenticate(
+              new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+      );
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -33,14 +35,18 @@ public class AuthServiceImpl implements AuthService {
 
     jwtResponse.setId(user.getUserId());
     jwtResponse.setUsername(user.getUsername());
-    jwtResponse.setAccessToken(jwtTokenProvider.createAccessToken(user.getUserId(), user.getUsername(), user.getRoles()));
-    jwtResponse.setRefreshToken(jwtTokenProvider.createRefreshToken(user.getUserId(), user.getUsername()));
+    jwtResponse.setAccessToken(
+            jwtTokenProvider.createAccessToken(user.getUserId(), user.getUsername(), user.getRoles())
+    );
+    jwtResponse.setRefreshToken(
+            jwtTokenProvider.createRefreshToken(user.getUserId(), user.getUsername())
+    );
 
     return jwtResponse;
   }
 
   @Override
-  public JwtResponse refresh(String refreshToken) {
+  public JwtResponse refresh(final String refreshToken) {
     return jwtTokenProvider.refreshTokens(refreshToken);
   }
 }

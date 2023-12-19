@@ -28,14 +28,14 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional(readOnly = true)
   @Cacheable(value = "UserService::getById", key = "#userId")
-  public User getById(long userId) {
+  public User getById(final long userId) {
     return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found."));
   }
 
   @Override
   @Transactional(readOnly = true)
   @Cacheable(value = "UserService::getByUsername", key = "#username")
-  public User getByUsername(String username) {
+  public User getByUsername(final String username) {
     return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found."));
   }
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
           @CachePut(value = "UserService::getById", key = "#user.userId"),
           @CachePut(value = "UserService::getByUsername", key = "#user.username")
   })
-  public User update(User user) {
+  public User update(final User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.save(user);
     return user;
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
           @Cacheable(value = "UserService::getById", key = "#user.userId"),
           @Cacheable(value = "UserService::getByUsername", key = "#user.username")
   })
-  public User create(User user) {
+  public User create(final User user) {
     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
       throw new IllegalStateException("User already exists.");
     }
@@ -76,14 +76,14 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional(readOnly = true)
   @Cacheable(value = "UserService::isTaskOwner", key = "#userId" + '.' + "#taskId")
-  public boolean isTaskOwner(long userId, long taskId) {
+  public boolean isTaskOwner(final long userId, final long taskId) {
     return userRepository.isTaskOwner(userId, taskId);
   }
 
   @Override
   @Transactional
   @CacheEvict(value = "UserService::getById", key = "#userId")
-  public void delete(long userId) {
+  public void delete(final long userId) {
     userRepository.deleteById(userId);
   }
 }
