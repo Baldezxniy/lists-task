@@ -91,10 +91,10 @@ dependencies {
 tasks.named('compileJava') {
     inputs.files(tasks.named('processResources'))
 }
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
+//
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
 
 checkstyle {
     toolVersion = '10.12.5'
