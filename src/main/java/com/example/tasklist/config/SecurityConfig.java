@@ -3,7 +3,6 @@ package com.example.tasklist.config;
 import com.example.tasklist.web.security.JwtTokenFilter;
 import com.example.tasklist.web.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -25,8 +24,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class SecurityConfig {
-  private final ApplicationContext applicationContext;
-
   private final JwtTokenProvider tokenProvider;
 
   @Bean
@@ -45,9 +42,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .cors(AbstractHttpConfigurer::disable)
             .sessionManagement(sessionManagement ->
-                    sessionManagement.sessionCreationPolicy(
-                            SessionCreationPolicy.STATELESS
-                    )
+                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .exceptionHandling(configurer ->
                     configurer.authenticationEntryPoint(
@@ -69,14 +64,10 @@ public class SecurityConfig {
                                               .write("Unauthorized.");
                                     }))
             .authorizeHttpRequests(configurer ->
-                    configurer.requestMatchers("/api/v1/auth/**")
-                            .permitAll()
-                            .requestMatchers("/swagger-ui/**")
-                            .permitAll()
-                            .requestMatchers("/v3/api-docs/**")
-                            .permitAll()
-                            .requestMatchers("/graphiql")
-                            .permitAll()
+                    configurer.requestMatchers("/api/v1/auth/**").permitAll()
+                            .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/v3/api-docs/**").permitAll()
+                            .requestMatchers("/graphiql").permitAll()
                             .anyRequest().authenticated())
             .anonymous(AbstractHttpConfigurer::disable)
             .addFilterBefore(new JwtTokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);

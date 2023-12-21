@@ -31,6 +31,9 @@ spring:
     url: jdbc:postgresql://${HOST}:5432/${POSTGRES_LOCAL_DB}?currentSchema=${POSTGRES_SCHEMA}
     user: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+  graphql:
+    graphiql:
+      enabled: true
 
 security:
   jwt:
@@ -69,3 +72,6 @@ spring:
     url: jdbc:postgresql://${DOCKER_DB_CONTAINER_NAME}/${DOCKER_DB_NAME}?currentSchema=${POSTGRES_SCHEMA}
     user: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+  graphql:
+    graphiql:
+      enabled: false
