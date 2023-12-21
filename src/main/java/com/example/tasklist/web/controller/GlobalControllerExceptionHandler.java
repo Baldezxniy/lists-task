@@ -77,7 +77,7 @@ public class GlobalControllerExceptionHandler {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public HttpErrorInfo handleConstraintViolationException(final Exception ex) {
-
+    ex.printStackTrace();
     return createHttpErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR, ex);
   }
 
