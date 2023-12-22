@@ -23,13 +23,9 @@ public class AuthServiceImpl implements AuthService {
   public JwtResponse login(final JwtRequest loginRequest) {
     JwtResponse jwtResponse = new JwtResponse();
 
-    try {
-      authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-      );
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+    );
 
     User user = userService.getByUsername(loginRequest.getUsername());
 
