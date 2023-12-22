@@ -5,6 +5,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
 
     id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -28,8 +29,6 @@ ext {
 
     postgresqlVersion = "42.6.0"
 
-//    mybatisVersion = "3.0.1"
-
     lombokVersion = "1.18.30"
 
     mapstructVersion = "1.5.3.Final"
@@ -49,6 +48,9 @@ ext {
 
     xnlFormaterVersion = "3.2.2"
     checkstyleVersion = "3.2.2"
+
+    mocitoCoreVersion = "5.8.0"
+    junitJupiterApiVersion = "5.10.1"
 }
 
 dependencies {
@@ -65,10 +67,9 @@ dependencies {
 
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
 
-//    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
-
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     //  lombok нужно вставлять выше, чтобы mapstruct видел setter, getter
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
@@ -92,23 +93,58 @@ dependencies {
 
     implementation "io.minio:minio:${minioVersion}"
 
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.mockito:mockito-core:${mocitoCoreVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterApiVersion}"
 }
 
 tasks.named('compileJava') {
     inputs.files(tasks.named('processResources'))
 }
-//
-//tasks.named('test') {
-//    useJUnitPlatform()
-//}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
 
 checkstyle {
     toolVersion = '10.12.5'
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
     showViolations = true
     ignoreFailures = false
+}
+
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+check {
+    dependsOn jacocoTestCoverageVerification
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            includes = ['com.example.tasklist.services.impl']
+            element = "PACKAGE"
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.60
+            }
+        }
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml
+        html
+    }
 }
 
 bootJar {
