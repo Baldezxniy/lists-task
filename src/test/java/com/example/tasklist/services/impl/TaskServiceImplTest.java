@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class TaskServiceImplTest {
 
   @Test
   void getById() {
-    Long taskId = 1L;
+    long taskId = 1L;
     Task task = new Task();
     task.setTaskId(taskId);
     Mockito.when(taskRepository.findById(taskId))
@@ -52,9 +53,11 @@ public class TaskServiceImplTest {
 
   @Test
   void getByIdWitNotExistingId() {
-    Long taskId = 1L;
+    long taskId = 1L;
+
     Mockito.when(taskRepository.findById(taskId))
             .thenReturn(Optional.empty());
+
     Assertions.assertThrows(NotFoundException.class,
             () -> taskService.getById(1L));
 
@@ -76,6 +79,21 @@ public class TaskServiceImplTest {
 
     Mockito.verify(taskRepository).findAllByUserId(userId);
     Assertions.assertEquals(tasks, testTask);
+  }
+
+  @Test
+  void getSoonTasks() {
+    Duration duration = Duration.ofHours(1);
+    List<Task> tasks = new ArrayList<>();
+    for (int i = 0; i < 5; i++) {
+      tasks.add(new Task());
+    }
+    Mockito.when(taskRepository.findAllSoonTasks(Mockito.any(), Mockito.any()))
+            .thenReturn(tasks);
+    List<Task> testTasks = taskService.getAllSoonTasks(duration);
+    Mockito.verify(taskRepository)
+            .findAllSoonTasks(Mockito.any(), Mockito.any());
+    Assertions.assertEquals(tasks, testTasks);
   }
 
   @Test

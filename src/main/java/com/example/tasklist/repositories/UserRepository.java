@@ -11,6 +11,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUsername(String username);
 
   @Query(value = """
+          SELECT
+          u.user_id as user_id,
+          u.name as name,
+          u.username as username,
+          u.password as password
+          FROM users_tasks ut
+          JOIN users u ON u.user_id = ut.user_id
+          WHERE ut.task_id = :taskId
+          """, nativeQuery = true)
+  Optional<User> findTaskAuthor(@Param("taskId") long taskId);
+
+  @Query(value = """
           SELECT exists(
                            SELECT 1 FROM users_tasks
                            WHERE user_id = :userId
