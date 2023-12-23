@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Component("example.com")
 @EnableTransactionManagement
 public class TaskListApplication {
-
   public static void main(final String[] args) {
     SpringApplication.run(TaskListApplication.class, args);
   }
-
 }
