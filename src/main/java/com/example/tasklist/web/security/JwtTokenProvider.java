@@ -32,96 +32,102 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-  private final JwtProperties jwtProperties;
+	private final JwtProperties jwtProperties;
 
-  private final UserDetailsService userDetailsService;
-  private final UserService userService;
-  private Key key;
+	private final UserDetailsService userDetailsService;
+	private final UserService userService;
+	private Key key;
 
-  @PostConstruct
-  public void init() {
-    String secret64 = Encoders.BASE64.encode(jwtProperties.getSecret().getBytes());
+	@PostConstruct
+	public void init() {
+		String secret64 = Encoders.BASE64.encode(jwtProperties.getSecret().getBytes());
 
-    this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret64));
-  }
+		this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret64));
+	}
 
-  public String createAccessToken(
-          final Long userId,
-          final String username,
-          final Set<Role> roles
-  ) {
-    Claims claims = Jwts.claims().setSubject(username);
-    claims.put("id", userId);
-    claims.put("roles", resolveRoles(roles));
-    Instant validity = Instant.now()
-            .plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
-    return Jwts.builder()
-            .setClaims(claims)
-            .setExpiration(Date.from(validity))
-            .signWith(key)
-            .compact();
-  }
+	public String createAccessToken(
+			final Long userId,
+			final String username,
+			final Set<Role> roles
+	) {
+		Claims claims = Jwts.claims();
 
-  private List<String> resolveRoles(final Set<Role> roles) {
-    return roles.stream().map(Enum::name).collect(Collectors.toList());
-  }
+		claims.setSubject(username);
+		claims.put("user_id", userId);
+		claims.put("roles", resolveRoles(roles));
 
-  public String createRefreshToken(final long userId, final String username) {
+		Instant validity = Instant.now()
+				.plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
 
-    Claims claims = Jwts.claims().setSubject(username);
-    claims.put("id", userId);
-    Instant validity = Instant.now()
-            .plus(jwtProperties.getRefresh(), ChronoUnit.DAYS);
-    return Jwts.builder()
-            .setClaims(claims)
-            .setExpiration(Date.from(validity))
-            .signWith(key)
-            .compact();
-  }
+		return Jwts.builder()
+				.setClaims(claims)
+				.setExpiration(Date.from(validity))
+				.signWith(key)
+				.compact();
+	}
 
-  public JwtResponse refreshTokens(final String refresh) {
-    JwtResponse jwtResponse = new JwtResponse();
+	private List<String> resolveRoles(final Set<Role> roles) {
+		return roles.stream().map(Enum::name).collect(Collectors.toList());
+	}
 
-    if (!validateToken(refresh)) {
-      throw new AccessDeniedException();
-    }
+	public String createRefreshToken(final long userId, final String username) {
 
-    long userId = Long.parseLong(getId(refresh));
-    User user = userService.getById(userId);
+		Claims claims = Jwts.claims().setSubject(username);
+		claims.put("user_id", userId);
+		Instant validity = Instant.now()
+				.plus(jwtProperties.getRefresh(), ChronoUnit.DAYS);
+		return Jwts.builder()
+				.setClaims(claims)
+				.setExpiration(Date.from(validity))
+				.signWith(key)
+				.compact();
+	}
 
-    jwtResponse.setId(userId);
-    jwtResponse.setUsername(user.getUsername());
-    jwtResponse.setAccessToken(createAccessToken(userId, user.getUsername(), user.getRoles()));
-    jwtResponse.setRefreshToken(createRefreshToken(userId, user.getUsername()));
+	public JwtResponse refreshTokens(final String refreshToken) {
+		JwtResponse jwtResponse = new JwtResponse();
 
-    return jwtResponse;
-  }
+//  Checks if the provided token is still valid.
+//  If the token is invalid, it means we won't be able to refresh the tokens.
+		if (!isValidateToken(refreshToken)) {
+			throw new AccessDeniedException();
+		}
 
-  public boolean validateToken(final String refresh) {
-    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key)
-            .build().parseClaimsJws(refresh);
+		long userId = Long.parseLong(getId(refreshToken));
+		User user = userService.getById(userId);
 
-    return !claims.getBody().getExpiration().before(new Date());
-  }
+		jwtResponse.setId(userId);
+		jwtResponse.setUsername(user.getUsername());
+		jwtResponse.setAccessToken(createAccessToken(userId, user.getUsername(), user.getRoles()));
+		jwtResponse.setRefreshToken(createRefreshToken(userId, user.getUsername()));
 
-  private String getId(final String refresh) {
-    return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refresh).getBody().get("user_id").toString();
-  }
+		return jwtResponse;
+	}
 
-  public Authentication getAuthentication(final String token) {
-    String username = getUsername(token);
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+	public boolean isValidateToken(final String token) {
+		Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key)
+				.build().parseClaimsJws(token);
 
-    return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-  }
+		return !claims.getBody().getExpiration().before(new Date());
+	}
 
-  private String getUsername(final String token) {
-    return Jwts
-            .parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token)
-            .getBody()
-            .getSubject();
-  }
+	private String getId(final String refresh) {
+		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refresh).getBody().get("user_id").toString();
+	}
+
+	public Authentication getAuthentication(final String token) {
+		String username = getUsername(token);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+	}
+
+	private String getUsername(final String token) {
+		return Jwts
+				.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(token)
+				.getBody()
+				.getSubject();
+	}
 }
